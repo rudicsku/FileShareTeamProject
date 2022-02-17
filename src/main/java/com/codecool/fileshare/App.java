@@ -2,16 +2,24 @@ package com.codecool.fileshare;
 
 import com.codecool.fileshare.model.dao.ManageCustomerJDBC;
 import org.postgresql.ds.PGSimpleDataSource;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class App {
     static Scanner input = new Scanner(System.in);
+
     public static void main(String[] args) {
         Connection con = getConnection();
-        ManageCustomerJDBC jdbc= new ManageCustomerJDBC(con);
-        mainMenu(jdbc);
+        ManageCustomerJDBC manageCustomerJDBC = new ManageCustomerJDBC(con);
+        System.out.println(manageCustomerJDBC.listAll());
+        //mainMenu();
+        //manageCustomerJDBC.deleteById("1");
+        manageCustomerJDBC.deleteByCategory("dog");
+        System.out.println(manageCustomerJDBC.listAll());
+
+
     }
 
     public static void mainMenu(ManageCustomerJDBC jdbc) {

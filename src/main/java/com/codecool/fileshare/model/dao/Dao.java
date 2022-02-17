@@ -1,6 +1,5 @@
 package com.codecool.fileshare.model.dao;
 
-import java.io.File;
 import java.util.List;
 
 public interface Dao<T> {

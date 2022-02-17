@@ -38,13 +38,23 @@ public class ManageCustomerJDBC implements ImageDao {
     }
 
     @Override
-    public void deleteById(String id) {
-
+    public void deleteById(String uuid) {
+        try(PreparedStatement stmt = con.prepareStatement("DELETE FROM image WHERE image.id = ?")){
+            stmt.setString(1,uuid);
+            stmt.execute();
+        }catch (RuntimeException | SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteByCategory(String category) {
-
+        try(PreparedStatement stmt = con.prepareStatement("DELETE FROM image WHERE category = ?")){
+            stmt.setString(1,category);
+            stmt.execute();
+        }catch (RuntimeException | SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
