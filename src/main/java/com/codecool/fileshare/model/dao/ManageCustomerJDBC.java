@@ -16,7 +16,7 @@ public class ManageCustomerJDBC implements ImageDao {
     private Connection con;
 
     RowMapper<Image> mapper = rs -> new Image(
-            rs.getString("uuid"),
+            rs.getString("id"),
             rs.getString("category"),
             rs.getString("content"),
             rs.getString("extension"));
