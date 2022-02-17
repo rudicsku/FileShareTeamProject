@@ -15,11 +15,7 @@ public class App {
     public static void main(String[] args) {
         Connection con = getConnection();
         ManageCustomerJDBC manageCustomerJDBC = new ManageCustomerJDBC(con);
-        System.out.println(manageCustomerJDBC.listAll());
-        //mainMenu();
-        manageCustomerJDBC.deleteById("1");
-        manageCustomerJDBC.deleteByCategory("dog");
-        System.out.println(manageCustomerJDBC.listAll());
+        mainMenu(manageCustomerJDBC);
 
 
     }
@@ -51,7 +47,7 @@ public class App {
             case "4" -> System.out.println("stat"); //TODO
             case "5" -> System.out.println("Download"); //TODO
             case "6" -> {
-
+                changeCategoryById(jdbc);
             }
         }
 
