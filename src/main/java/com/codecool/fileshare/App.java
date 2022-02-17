@@ -1,7 +1,6 @@
-package com.codecool;
+package com.codecool.fileshare;
 
 import org.postgresql.ds.PGSimpleDataSource;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
