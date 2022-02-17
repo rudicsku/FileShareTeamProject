@@ -10,10 +10,11 @@ public class App {
     static Scanner input = new Scanner(System.in);
     public static void main(String[] args) {
         Connection con = getConnection();
-        mainMenu();
+        ManageCustomerJDBC jdbc= new ManageCustomerJDBC(con);
+        mainMenu(jdbc);
     }
 
-    public static void mainMenu() {
+    public static void mainMenu(ManageCustomerJDBC jdbc) {
         String inputString = "0";
         //TODO validate
         while (Integer.parseInt(inputString) < 1 || Integer.parseInt(inputString) > 6) {
@@ -28,7 +29,10 @@ public class App {
         }
 
         switch (inputString) {
-            case "1" -> System.out.println("list");//TODO
+            case "1" -> {
+                System.out.println("list");
+                jdbc.listAll().forEach(System.out::println);//TODO
+            }
             case "2" -> System.out.println("Delete id"); //TODO
             case "3" -> System.out.println("Delete category"); //TODO
             case "4" -> System.out.println("stat"); //TODO
