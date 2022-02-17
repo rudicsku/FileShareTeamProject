@@ -1,4 +1,4 @@
-package model;
+package com.codecool.fileshare.model;
 
 import java.io.File;
 
