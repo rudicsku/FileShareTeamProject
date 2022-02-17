@@ -50,11 +50,20 @@ public class App {
             case "3" -> System.out.println("Delete category"); //TODO
             case "4" -> System.out.println("stat"); //TODO
             case "5" -> System.out.println("Download"); //TODO
-            case "6" -> System.out.println("Change cat"); //TODO
+            case "6" -> {
+
+            }
         }
 
     }
+    private static void changeCategoryById(ManageCustomerJDBC jdbc){
+        System.out.println("Dear Administrator give me the id -of the image which you want to change it's category");
+        String id = getIdFromUser();
+        System.out.println("Give me the desired category");
+        String category = input.nextLine(); //todo nullcheck
+        jdbc.changeCategoryById(id,category);
 
+    }
     public static boolean inputCheck(String input) {
         try {
             Integer.parseInt(input);

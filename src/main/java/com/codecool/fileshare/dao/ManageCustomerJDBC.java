@@ -73,7 +73,7 @@ public class ManageCustomerJDBC implements ImageDao {
     public void changeCategoryById(String id,String categoryToSet) {
         try (PreparedStatement stmt = con.prepareStatement("UPDATE image Set category=? WHERE id=?")) {
             stmt.setString(1,categoryToSet);
-            stmt.setString(2,id);
+            stmt.setObject(2, UUID.fromString(id),java.sql.Types.OTHER);
             int numberOfRowsChanged = stmt.executeUpdate();
             if (numberOfRowsChanged==0){
                 System.out.println("No such an Id");
