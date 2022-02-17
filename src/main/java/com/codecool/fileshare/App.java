@@ -3,9 +3,11 @@ package com.codecool.fileshare;
 import com.codecool.fileshare.dao.ManageCustomerJDBC;
 import org.postgresql.ds.PGSimpleDataSource;
 
+import java.security.spec.ECField;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class App {
     static Scanner input = new Scanner(System.in);
@@ -79,6 +81,13 @@ public class App {
         while (inputstr==null){
             System.out.println("Give me an uuid of an image)");
             inputstr= input.nextLine();
+            try {
+                var uuid =UUID.fromString(inputstr);
+            }catch (IllegalArgumentException e){
+                System.out.println("Not a valid uuid");
+                inputstr=null;
+                continue;
+            }
         }
         return  inputstr;
     }
