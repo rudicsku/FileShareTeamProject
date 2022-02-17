@@ -1,6 +1,6 @@
 package com.codecool.fileshare;
 
-import com.codecool.fileshare.model.dao.ManageCustomerJDBC;
+import com.codecool.fileshare.dao.ManageCustomerJDBC;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.Connection;
@@ -27,7 +27,7 @@ public class App {
         //TODO validate
         while (Integer.parseInt(inputString) < 1 || Integer.parseInt(inputString) > 6) {
             System.out.println("Select number between options:");
-            System.out.println("1. List  all files");
+            System.out.println("1. List all files");
             System.out.println("2. Delete by Id");
             System.out.println("3. Delete by category");
             System.out.println("4. Statistics");

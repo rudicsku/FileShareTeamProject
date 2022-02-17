@@ -1,4 +1,4 @@
-package com.codecool.fileshare.model.dao;
+package com.codecool.fileshare.dao;
 
 import java.util.List;
 

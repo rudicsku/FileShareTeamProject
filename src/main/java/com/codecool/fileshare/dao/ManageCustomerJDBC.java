@@ -1,4 +1,4 @@
-package com.codecool.fileshare.model.dao;
+package com.codecool.fileshare.dao;
 
 import com.codecool.fileshare.RowMapper;
 import com.codecool.fileshare.model.Image;
