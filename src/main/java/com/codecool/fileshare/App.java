@@ -65,6 +65,7 @@ public class App {
                     int padding= 10-s.length();
                     System.out.printf(s + "  %6s\n", stats.get(s));
                 }
+
                 System.out.println();
                 Map<String, Integer> stats2 = jdbc.statistics2();
                 System.out.printf("ImageType  Number_of_images by ImageType\n");
