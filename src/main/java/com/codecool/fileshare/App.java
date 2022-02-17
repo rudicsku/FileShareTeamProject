@@ -26,14 +26,14 @@ public class App {
             inputString = input.nextLine();
         }
 
-        /*switch (inputString) {
-            case 1 -> System.out.println("list"); //TODO
-            case 2 -> System.out.println("Delete id"); //TODO
-            case 3 -> System.out.println("Delete category"); //TODO
-            case 4 -> System.out.println("stat"); //TODO
-            case 5 -> System.out.println("Download"); //TODO
-            case 6 -> System.out.println("Change cat"); //TODO
-        }*/
+        switch (inputString) {
+            case "1" -> System.out.println("list"); //TODO
+            case "2" -> System.out.println("Delete id"); //TODO
+            case "3" -> System.out.println("Delete category"); //TODO
+            case "4" -> System.out.println("stat"); //TODO
+            case "5" -> System.out.println("Download"); //TODO
+            case "6" -> System.out.println("Change cat"); //TODO
+        }
 
     }
 

@@ -71,4 +71,14 @@ public class Image {
         this.extension = extension;
     }
 
+    @Override
+    public String toString() {
+        return "Image{" +
+                "uuid='" + uuid + '\'' +
+                ", base64Code='" + base64Code + '\'' +
+                ", imageFile=" + imageFile +
+                ", category='" + category + '\'' +
+                ", extension='" + extension + '\'' +
+                '}';
+    }
 }
