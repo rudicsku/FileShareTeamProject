@@ -15,7 +15,7 @@ public class App {
         ManageCustomerJDBC manageCustomerJDBC = new ManageCustomerJDBC(con);
         System.out.println(manageCustomerJDBC.listAll());
         //mainMenu();
-        //manageCustomerJDBC.deleteById("1");
+        manageCustomerJDBC.deleteById("1");
         manageCustomerJDBC.deleteByCategory("dog");
         System.out.println(manageCustomerJDBC.listAll());
 
@@ -41,7 +41,10 @@ public class App {
                 System.out.println("list");
                 jdbc.listAll().forEach(System.out::println);//TODO
             }
-            case "2" -> System.out.println("Delete id"); //TODO
+            case "2" -> {
+                System.out.println("Delete id");
+                jdbc.deleteById("13141");
+            } //TODO
             case "3" -> System.out.println("Delete category"); //TODO
             case "4" -> System.out.println("stat"); //TODO
             case "5" -> System.out.println("Download"); //TODO

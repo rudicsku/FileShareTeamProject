@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class ManageCustomerJDBC implements ImageDao {
     private Connection con;
@@ -39,9 +40,15 @@ public class ManageCustomerJDBC implements ImageDao {
 
     @Override
     public void deleteById(String uuid) {
-        try(PreparedStatement stmt = con.prepareStatement("DELETE FROM image WHERE image.id = ?")){
-            stmt.setString(1,uuid);
-            stmt.execute();
+        try(PreparedStatement stmt = con.prepareStatement("DELETE  FROM image WHERE id = ?")){
+            stmt.setObject(1, UUID.fromString(uuid),java.sql.Types.OTHER);
+            int numberOfRowsChanged= stmt.executeUpdate();
+            if (numberOfRowsChanged==0){
+                System.out.println("No such an Id");
+            }else {
+                System.out.printf("The image id of %s's is deleted");
+            }
+
         }catch (RuntimeException | SQLException e){
             e.printStackTrace();
         }
