@@ -14,5 +14,5 @@ public interface Dao<T> {
 
 //    File downloadById();
 
-    void changeCategoryById(String id);
+    void changeCategoryById(String id,String category);
 }

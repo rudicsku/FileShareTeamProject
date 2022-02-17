@@ -4,10 +4,7 @@ import com.codecool.fileshare.RowMapper;
 import com.codecool.fileshare.model.Image;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,7 +53,18 @@ public class ManageCustomerJDBC implements ImageDao {
     }
 
     @Override
-    public void changeCategoryById(String id) {
-
+    public void changeCategoryById(String id,String categoryToSet) {
+        try (PreparedStatement stmt = con.prepareStatement("UPDATE image Set category=? WHERE id=?")) {
+            stmt.setString(1,categoryToSet);
+            stmt.setString(2,id);
+            int numberOfRowsChanged = stmt.executeUpdate();
+            if (numberOfRowsChanged==0){
+                System.out.println("No such an Id");
+            }else {
+                System.out.printf("The image id of %s's category changed to %s",id,categoryToSet);
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
     }
 }

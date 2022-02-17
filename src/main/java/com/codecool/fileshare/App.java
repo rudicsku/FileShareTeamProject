@@ -62,6 +62,15 @@ public class App {
             throw new RuntimeException(e);
         }
     }
+
+    private static String getIdFromUser(){
+        String inputstr=null;
+        while (inputstr==null){
+            System.out.println("Give me an uuid of an image)");
+            inputstr= input.nextLine();
+        }
+        return  inputstr;
+    }
 }
 
 
