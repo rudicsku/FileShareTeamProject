@@ -6,6 +6,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 import java.security.spec.ECField;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -31,7 +32,7 @@ public class App {
             System.out.println("1. List all files");
             System.out.println("2. Delete by Id");
             System.out.println("3. Delete by category");
-            System.out.println("4. Statistics");
+            System.out.println("4. Statistics"); // Jani
             System.out.println("5. Download by Id");
             System.out.println("6. Change category by id");
             inputString = input.nextLine();
@@ -57,7 +58,20 @@ public class App {
             }
             case "4" -> {
                 System.out.println("Statistics:");
-                jdbc.statistics().forEach(System.out::printf);
+                Map<String, Integer> stats = jdbc.statistics();
+                //System.out.println("Category   Number_of_images");
+                System.out.printf("Category  Number_of_images by Category\n");
+                for (String s: stats.keySet()) {
+                    int padding= 10-s.length();
+                    System.out.printf(s + "  %6s\n", stats.get(s));
+                }
+                System.out.println();
+                Map<String, Integer> stats2 = jdbc.statistics2();
+                System.out.printf("ImageType  Number_of_images by ImageType\n");
+                for (String s: stats2.keySet()) {
+                    int padding= 10-s.length();
+                    System.out.printf(s + "  %7s\n", stats2.get(s));
+                }
             }
             case "5" -> {
                 System.out.println("Download");

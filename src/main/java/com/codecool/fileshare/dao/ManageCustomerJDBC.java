@@ -62,12 +62,26 @@ public class ManageCustomerJDBC implements ImageDao {
     @Override
     public Map<String, Integer> statistics() {
         try (Statement stmt = con.createStatement()) {
-            ResultSet rs = stmt.executeQuery("select category, count(category) as number_of_images from image group by category");
+            ResultSet rs = stmt.executeQuery("select category, count(id) as number_of_images from image group by category order by count(id) desc");
             Map<String, Integer> statistics = new HashMap<>();
             while (rs.next()) {
                 statistics.put(rs.getString("category"), rs.getInt("number_of_images"));
             }
             return statistics;
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
+
+    public Map<String, Integer> statistics2() {
+        try (Statement stmt = con.createStatement()) {
+            ResultSet rs = stmt.executeQuery("select extension, count(id) as number_of_images from image group by extension order by count(id) desc");
+            Map<String, Integer> statistics2 = new HashMap<>();
+            while (rs.next()) {
+                statistics2.put(rs.getString("extension"), rs.getInt("number_of_images"));
+            }
+            return statistics2;
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
