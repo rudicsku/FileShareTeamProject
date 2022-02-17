@@ -1,3 +1,5 @@
+package com.codecool;
+
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.Connection;
@@ -10,11 +12,11 @@ public class App {
         mainMenu();
     }
 
-    public static void mainMenu(){
+    public static void mainMenu() {
         Scanner input = new Scanner(System.in);
         String inputString = "0";
         //TODO validate
-        while(Integer.parseInt(inputString) < 1 || Integer.parseInt(inputString) > 6){
+        while (Integer.parseInt(inputString) < 1 || Integer.parseInt(inputString) > 6) {
             System.out.println("Select number between options:");
             System.out.println("1. List  all files");
             System.out.println("2. Delete by Id");
@@ -36,14 +38,14 @@ public class App {
 
     }
 
-   public static boolean inputCheck(String input){
-        try{
+    public static boolean inputCheck(String input) {
+        try {
             Integer.parseInt(input);
             return true;
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
-   }
+    }
 
     private static Connection getConnection() {
         var ds = new PGSimpleDataSource();
