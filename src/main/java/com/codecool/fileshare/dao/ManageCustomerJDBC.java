@@ -3,12 +3,8 @@ package com.codecool.fileshare.dao;
 import com.codecool.fileshare.RowMapper;
 import com.codecool.fileshare.model.Image;
 
-import java.io.File;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ManageCustomerJDBC implements ImageDao {
     private Connection con;
@@ -40,45 +36,54 @@ public class ManageCustomerJDBC implements ImageDao {
 
     @Override
     public void deleteById(String uuid) {
-        try(PreparedStatement stmt = con.prepareStatement("DELETE  FROM image WHERE id = ?")){
-            stmt.setObject(1, UUID.fromString(uuid),java.sql.Types.OTHER);
-            int numberOfRowsChanged= stmt.executeUpdate();
-            if (numberOfRowsChanged==0){
+        try (PreparedStatement stmt = con.prepareStatement("DELETE FROM image WHERE id = ?")) {
+            stmt.setObject(1, UUID.fromString(uuid), java.sql.Types.OTHER);
+            int numberOfRowsChanged = stmt.executeUpdate();
+            if (numberOfRowsChanged == 0) {
                 System.out.println("No such an Id");
-            }else {
-                System.out.printf("The image id of %s's is deleted");
+            } else {
+                System.out.printf("The image id of %s's is deleted", uuid);
             }
-
-        }catch (RuntimeException | SQLException e){
+        } catch (RuntimeException | SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void deleteByCategory(String category) {
-        try(PreparedStatement stmt = con.prepareStatement("DELETE FROM image WHERE category = ?")){
-            stmt.setString(1,category);
+        try (PreparedStatement stmt = con.prepareStatement("DELETE FROM image WHERE category = ?")) {
+            stmt.setString(1, category);
             stmt.execute();
-        }catch (RuntimeException | SQLException e){
+        } catch (RuntimeException | SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public String statistics() {
+    public Map<String, Integer> statistics() {
+        try (Statement stmt = con.createStatement()) {
+            ResultSet rs = stmt.executeQuery("select category, count(category) as number_of_images from image group by category");
+            Map<String, Integer> statistics = new HashMap<>();
+            while (rs.next()) {
+                statistics.put(rs.getString("category"), rs.getInt("number_of_images"));
+            }
+            return statistics;
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
         return null;
     }
 
     @Override
-    public void changeCategoryById(String id,String categoryToSet) {
+    public void changeCategoryById(String id, String categoryToSet) {
         try (PreparedStatement stmt = con.prepareStatement("UPDATE image Set category=? WHERE id=?")) {
-            stmt.setString(1,categoryToSet);
-            stmt.setString(2,id);
+            stmt.setString(1, categoryToSet);
+            stmt.setString(2, id);
             int numberOfRowsChanged = stmt.executeUpdate();
-            if (numberOfRowsChanged==0){
+            if (numberOfRowsChanged == 0) {
                 System.out.println("No such an Id");
-            }else {
-                System.out.printf("The image id of %s's category changed to %s",id,categoryToSet);
+            } else {
+                System.out.printf("The image id of %s's category changed to %s", id, categoryToSet);
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

@@ -15,13 +15,12 @@ public class App {
     public static void main(String[] args) {
         Connection con = getConnection();
         ManageCustomerJDBC manageCustomerJDBC = new ManageCustomerJDBC(con);
-        System.out.println(manageCustomerJDBC.listAll());
-        //mainMenu();
+        mainMenu(manageCustomerJDBC);
+/*        System.out.println(manageCustomerJDBC.listAll());
         manageCustomerJDBC.deleteById("1");
-        manageCustomerJDBC.deleteByCategory("dog");
         System.out.println(manageCustomerJDBC.listAll());
-
-
+        manageCustomerJDBC.deleteByCategory("dog");
+        System.out.println(manageCustomerJDBC.listAll());*/
     }
 
     public static void mainMenu(ManageCustomerJDBC jdbc) {
@@ -40,17 +39,39 @@ public class App {
 
         switch (inputString) {
             case "1" -> {
-                System.out.println("list");
-                jdbc.listAll().forEach(System.out::println);//TODO
+                System.out.println("List of all files:");
+                jdbc.listAll().forEach(System.out::println);
             }
             case "2" -> {
-                System.out.println("Delete id");
-                jdbc.deleteById("13141");
-            } //TODO
-            case "3" -> System.out.println("Delete category"); //TODO
-            case "4" -> System.out.println("stat"); //TODO
-            case "5" -> System.out.println("Download"); //TODO
-            case "6" -> System.out.println("Change cat"); //TODO
+                System.out.println("Please enter the ID of the file you want to delete:");
+                String idToDelete = getIdFromUser();
+                jdbc.deleteById(idToDelete);
+            }
+            case "3" -> {
+                String categoryToDelete = null;
+                while (categoryToDelete == null) {
+                    System.out.println("Please enter the category of the files you want to delete:");
+                    categoryToDelete = input.nextLine();
+                    jdbc.deleteByCategory(categoryToDelete);
+                }
+            }
+            case "4" -> {
+                System.out.println("Statistics:");
+                jdbc.statistics().forEach(System.out::printf);
+            }
+            case "5" -> {
+                System.out.println("Download");
+            }
+            case "6" -> {
+                System.out.println("Please enter the ID of the files you want to change the category of:");
+                String idToChange = getIdFromUser();
+                String categoryToChange = null;
+                while (categoryToChange == null) {
+                    System.out.println("Please enter the new category of the file:");
+                    categoryToChange = input.nextLine();
+                }
+                jdbc.changeCategoryById(idToChange, categoryToChange);
+            }
         }
 
     }
@@ -76,21 +97,19 @@ public class App {
         }
     }
 
-    private static String getIdFromUser(){
-        String inputstr=null;
-        while (inputstr==null){
+    private static String getIdFromUser() {
+        String inputstr = null;
+        while (inputstr == null) {
             System.out.println("Give me an uuid of an image)");
-            inputstr= input.nextLine();
+            inputstr = input.nextLine();
             try {
-                var uuid =UUID.fromString(inputstr);
-            }catch (IllegalArgumentException e){
+                var uuid = UUID.fromString(inputstr);
+            } catch (IllegalArgumentException e) {
                 System.out.println("Not a valid uuid");
-                inputstr=null;
+                inputstr = null;
                 continue;
             }
         }
-        return  inputstr;
+        return inputstr;
     }
 }
-
-

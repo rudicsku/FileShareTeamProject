@@ -1,6 +1,7 @@
 package com.codecool.fileshare.dao;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Dao<T> {
     List<T> listAll();
@@ -9,7 +10,7 @@ public interface Dao<T> {
 
     void deleteByCategory(String category);
 
-    String statistics();
+    Map<String, Integer> statistics();
 
 //    File downloadById();
 
