@@ -1,18 +1,19 @@
 package com.codecool.fileshare;
 
+import com.codecool.fileshare.model.dao.ManageCustomerJDBC;
 import org.postgresql.ds.PGSimpleDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class App {
+    static Scanner input = new Scanner(System.in);
     public static void main(String[] args) {
         Connection con = getConnection();
         mainMenu();
     }
 
     public static void mainMenu() {
-        Scanner input = new Scanner(System.in);
         String inputString = "0";
         //TODO validate
         while (Integer.parseInt(inputString) < 1 || Integer.parseInt(inputString) > 6) {
@@ -27,7 +28,7 @@ public class App {
         }
 
         switch (inputString) {
-            case "1" -> System.out.println("list"); //TODO
+            case "1" -> System.out.println("list");//TODO
             case "2" -> System.out.println("Delete id"); //TODO
             case "3" -> System.out.println("Delete category"); //TODO
             case "4" -> System.out.println("stat"); //TODO
