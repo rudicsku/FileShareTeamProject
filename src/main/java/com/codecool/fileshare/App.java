@@ -6,6 +6,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 import java.security.spec.ECField;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -40,14 +41,48 @@ public class App {
                 jdbc.listAll().forEach(System.out::println);//TODO
             }
             case "2" -> {
-                System.out.println("Delete id");
-                jdbc.deleteById("13141");
-            } //TODO
-            case "3" -> System.out.println("Delete category"); //TODO
-            case "4" -> System.out.println("stat"); //TODO
-            case "5" -> System.out.println("Download"); //TODO
+                System.out.println("Please enter the ID of the file you want to delete:");
+                String idToDelete = getIdFromUser();
+                jdbc.deleteById(idToDelete);
+            }
+            case "3" -> {
+                String categoryToDelete = null;
+                while (categoryToDelete == null) {
+                    System.out.println("Please enter the category of the files you want to delete:");
+                    categoryToDelete = input.nextLine();
+                    jdbc.deleteByCategory(categoryToDelete);
+                }
+            }
+            case "4" -> {
+                System.out.println("Statistics:");
+                Map<String, Integer> stats = jdbc.statistics();
+                //System.out.println("Category   Number_of_images");
+                System.out.printf("Category  Number_of_images by Category\n");
+                for (String s: stats.keySet()) {
+                    int padding= 10-s.length();
+                    System.out.printf(s + "  %6s\n", stats.get(s));
+                }
+
+                System.out.println();
+                Map<String, Integer> stats2 = jdbc.statistics2();
+                System.out.printf("ImageType  Number_of_images by ImageType\n");
+                for (String s: stats2.keySet()) {
+                    int padding= 10-s.length();
+                    System.out.printf(s + "  %7s\n", stats2.get(s));
+                }
+            }
+            case "5" -> {
+                System.out.println("Download");
+            }
             case "6" -> {
-                changeCategoryById(jdbc);
+                System.out.println("Please enter the ID of the files you want to change the category of:");
+                String idToChange = getIdFromUser();
+                String categoryToChange = null;
+                while (categoryToChange == null) {
+                    System.out.println("Please enter the new category of the file:");
+                    categoryToChange = input.nextLine();
+                }
+                jdbc.changeCategoryById(idToChange, categoryToChange);
             }
         }
 
