@@ -1,6 +1,7 @@
 package com.codecool.fileshare;
 
 import com.codecool.fileshare.dao.ManageCustomerJDBC;
+import com.codecool.fileshare.model.Image;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.Connection;
@@ -16,15 +17,13 @@ public class App {
         Connection con = getConnection();
         ManageCustomerJDBC manageCustomerJDBC = new ManageCustomerJDBC(con);
         mainMenu(manageCustomerJDBC);
-
-
     }
 
     public static void mainMenu(ManageCustomerJDBC jdbc) {
         String inputString = "0";
         Boolean isrunning = true;
         //TODO validate
-        while (isrunning || Integer.parseInt(inputString) < 1 || Integer.parseInt(inputString) > 6) {
+        while (isrunning && (!inputCheck(inputString) || Integer.parseInt(inputString) < 1 || Integer.parseInt(inputString) > 6)) {
             System.out.println("Select number between options:");
             System.out.println("1. List all files");
             System.out.println("2. Delete by Id");
@@ -37,12 +36,17 @@ public class App {
             switch (inputString) {
                 case "1" -> {
                     System.out.println("list");
-                    jdbc.listAll().forEach(System.out::println);//TODO
+                    for (Image i : jdbc.listAll()) {
+                        String format = "%-40s %-60s %-7s %s\n";
+                        System.out.printf(format, i.getUuid(), i.getBase64Code(), i.getCategory(), i.getExtension());
+                    }
+                    inputString = "0";
                 }
                 case "2" -> {
                     System.out.println("Please enter the ID of the file you want to delete:");
                     String idToDelete = getIdFromUser();
                     jdbc.deleteById(idToDelete);
+                    inputString = "0";
                 }
                 case "3" -> {
                     String categoryToDelete = null;
@@ -57,6 +61,7 @@ public class App {
                             jdbc.deleteByCategory(categoryToDelete);
                         }
                     }
+                    inputString = "0";
                 }
                 case "4" -> {
                     System.out.println("Statistics:");
@@ -75,9 +80,11 @@ public class App {
                         int padding = 10 - s.length();
                         System.out.printf(s + "  %7s\n", stats2.get(s));
                     }
+                    inputString = "0";
                 }
                 case "5" -> {
                     System.out.println("Download");
+                    inputString = "0";
                 }
                 case "6" -> {
                     System.out.println("Please enter the ID of the files you want to change the category of:");
@@ -94,12 +101,17 @@ public class App {
                             jdbc.changeCategoryById(idToChange, categoryToChange);
                         }
                     }
+                    inputString = "0";
                 }
                 case "q", "Q" -> {
-                    isrunning = false;
                     System.out.println("Program exiting...");
                     System.out.println("Bye!");
+                    isrunning = false;
                     System.exit(0);
+                }
+                default -> {
+                    System.out.println("Please enter a valid command!");
+                    inputString = "0";
                 }
             }
         }
@@ -108,8 +120,11 @@ public class App {
     private static void changeCategoryById(ManageCustomerJDBC jdbc) {
         System.out.println("Dear Administrator give me the id -of the image which you want to change it's category");
         String id = getIdFromUser();
-        System.out.println("Give me the desired category");
-        String category = input.nextLine(); //todo nullcheck
+        String category = null;
+        while (category == null) {
+            System.out.println("Give me the desired category");
+            category = input.nextLine();
+        }
         jdbc.changeCategoryById(id, category);
 
     }
@@ -152,7 +167,6 @@ public class App {
             } catch (IllegalArgumentException e) {
                 System.out.println("Not a valid uuid");
                 inputstr = null;
-                continue;
             }
         }
         return inputstr;
